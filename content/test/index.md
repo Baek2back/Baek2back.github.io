@@ -9,9 +9,18 @@ categories: 회고
 
 # 테스트용 포스트 작성
 
-```javascript
-const a = 1;
+```jsx{1, 3-5}
+export default function App() {
+  let [color, setColor] = useState('red');
+  return (
+    <div>
+      <input value={color} onChange={(e) => setColor(e.target.value)} />
+      <p style={{ color }}>Hello, world!</p> 
+      <ExpensiveTree />
+    </div>
+  );
+}
 ```
 
 $123$
-
+`hello`
