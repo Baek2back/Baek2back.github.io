@@ -1,9 +1,9 @@
 {
-  "name": "zoomkoding.com",
+  "name": "Baek2back.github.io",
   "private": false,
   "description": "A neat blog theme for developers",
   "version": "1.1.0",
-  "author": "zoomkoding <zoomkoding@gmail.com>",
+  "author": "Baek2back <dumbuk12@gmail.com>",
   "dependencies": {
     "@fontsource/montserrat": "^4.2.2",
     "@material-ui/core": "^4.11.3",
@@ -24,14 +24,15 @@
     "gatsby-remark-autolink-headers": "^2.11.0",
     "gatsby-remark-copy-linked-files": "^3.0.0",
     "gatsby-remark-images": "^4.0.0",
-    "gatsby-remark-mathjax": "^1.0.0",
+    "gatsby-remark-katex": "^5.7.0",
     "gatsby-remark-prismjs": "^4.0.0",
     "gatsby-remark-smartypants": "^3.0.0",
     "gatsby-remark-table-of-contents": "^1.0.0",
     "gatsby-source-filesystem": "^2.11.0",
     "gatsby-theme-material-ui": "^1.0.13",
-    "gatsby-transformer-remark": "^2.16.1",
+    "gatsby-transformer-remark": "^4.7.0",
     "gatsby-transformer-sharp": "^2.12.0",
+    "katex": "^0.13.13",
     "prismjs": "^1.23.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -61,9 +62,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/zoomkoding/zoomkoding-gatsby-blog"
+    "url": "https://github.com/Baek2back/Baek2back.github.io"
   },
   "bugs": {
-    "url": "https://github.com/zoomkoding/zoomkoding-gatsby-blog/issues"
+    "url": "https://github.com/Baek2back/Baek2back.github.io/issues"
   }
 }
