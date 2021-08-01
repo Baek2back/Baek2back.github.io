@@ -35,7 +35,15 @@ const PageHeader = ({ siteTitle }) => {
                   size="medium"
                   color="default"
                   checked={theme === 'dark'}
-                  onChange={(e) => toggleTheme(e.target.checked ? 'dark' : 'light')}
+                  onChange={(e) => {
+                    toggleTheme(e.target.checked ? 'dark' : 'light');
+                    const utterances = document.querySelector("iframe.utterances-frame");
+                    if (!utterances) return;
+                    utterances.contentWindow.postMessage({
+                      type: "set-theme",
+                      theme: e.target.checked ? "photon-dark" : "github-light"
+                    }, "https://utteranc.es/");
+                  }}
                 />
               </div>
             </div>

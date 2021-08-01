@@ -1,30 +1,32 @@
 import React, { useEffect } from 'react';
-
+import { hasClassOfBody } from '../../utils/helpers';
 const src = 'https://utteranc.es/client.js';
 const branch = 'master';
 
-export const Utterances = ({ repo, theme }) => {
+export const Utterances = ({ repo }) => {
   const rootElm = React.createRef();
 
   useEffect(() => {
-    if (!rootElm.current || rootElm.current.childNodes.length !== 0) return;
+    const isDarkTheme = hasClassOfBody("dark");
     const utterances = document.createElement('script');
     const utterancesConfig = {
       src,
       repo,
       branch,
-      theme: theme === 'light' ? 'github-light' : 'photon-dark',
+      theme: isDarkTheme ? "photon-dark" : 'github-light',
       label: 'comment',
       async: true,
       'issue-term': 'pathname',
       crossorigin: 'anonymous',
     };
 
-    Object.keys(utterancesConfig).forEach((configKey) => {
-      utterances.setAttribute(configKey, utterancesConfig[configKey]);
+    Object.entries(utterancesConfig).forEach(([key, value]) => {
+      utterances.setAttribute(key, value);
     });
+    
     rootElm.current.appendChild(utterances);
-  }, [repo, rootElm, theme]);
+  }, []);
 
-  return <div className="utterances" ref={rootElm} />;
+  return <div className="utterances" ref={rootElm} />
+    
 };

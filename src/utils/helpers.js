@@ -16,3 +16,11 @@ export const getSortedCategoriesByCount = (posts) => {
 
   return sortObjectByValue(cntPerCategory).map(([category]) => category);
 };
+
+export const getElement = (selector) => document.querySelector(selector);
+
+export const getBody = () => getElement("body");
+
+export const hasClass = (element, className) => element.classList.contains(className);
+
+export const hasClassOfBody = (className) => hasClass(getBody(), className);

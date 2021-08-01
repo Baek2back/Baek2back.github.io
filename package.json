@@ -6,7 +6,7 @@
   "author": "Baek2back <dumbuk12@gmail.com>",
   "dependencies": {
     "@fontsource/montserrat": "^4.2.2",
-    "@material-ui/core": "^4.11.3",
+    "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
@@ -54,7 +54,7 @@
     "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "deploy": "gatsby build && gh-pages -d public",
+    "deploy": "gatsby clean && gatsby build && gh-pages -d public",
     "start": "yarn run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
