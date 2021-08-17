@@ -113,7 +113,9 @@ strings
   <span class="token keyword">return</span> value<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-strings<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token function">pipe</span><span class="token punctuation">(</span>isShortEnough<span class="token punctuation">,</span> <span class="token function">tap</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>log<span class="token punctuation">)</span><span class="token punctuation">,</span> isLongEnough<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+strings<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>
+  <span class="token function">pipe</span><span class="token punctuation">(</span>isShortEnough<span class="token punctuation">,</span> <span class="token function">tap</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>log<span class="token punctuation">)</span><span class="token punctuation">,</span> isLongEnough<span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment">// true, true, true, true, false</span>
 
 <span class="token boolean">true</span><span class="token punctuation">.</span>length<span class="token punctuation">;</span> <span class="token comment">// undefined</span></code></pre></div>
@@ -210,30 +212,51 @@ g:                  <span class="token punctuation">((</span>a, b<span class="to
   <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
-<span class="token keyword">const</span> strUpperCaseReducer <span class="token operator">=</span> <span class="token function">mapReducer</span><span class="token punctuation">(</span>strUpperCase<span class="token punctuation">,</span> listCombine<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> strUpperCaseReducer <span class="token operator">=</span> <span class="token function">mapReducer</span><span class="token punctuation">(</span>
+  strUpperCase<span class="token punctuation">,</span>
+  listCombine<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token keyword">const</span> isLongEnoughReducer <span class="token operator">=</span> <span class="token function">filterReducer</span><span class="token punctuation">(</span>isLongEnough<span class="token punctuation">,</span> listCombine<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> isLongEnoughReducer <span class="token operator">=</span> <span class="token function">filterReducer</span><span class="token punctuation">(</span>
+  isLongEnough<span class="token punctuation">,</span>
+  listCombine<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token keyword">const</span> isShortEnoughReducer <span class="token operator">=</span> <span class="token function">filterReducer</span><span class="token punctuation">(</span>isShortEnough<span class="token punctuation">,</span> listCombine<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<span class="token keyword">const</span> isShortEnoughReducer <span class="token operator">=</span> <span class="token function">filterReducer</span><span class="token punctuation">(</span>
+  isShortEnough<span class="token punctuation">,</span>
+  listCombine<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <p>마지막으로 <code class="language-text">currying</code>까지 적용해두자.</p>
-<div class="gatsby-highlight" data-language="javascript"><pre class="language-javascript"><code class="language-javascript"><span class="token keyword">const</span> curriedFilterReducer <span class="token operator">=</span> <span class="token function">curry</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token function">filterReducer</span><span class="token punctuation">(</span><span class="token parameter">predicateFn<span class="token punctuation">,</span> combineFn</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<div class="gatsby-highlight" data-language="javascript"><pre class="language-javascript"><code class="language-javascript"><span class="token keyword">const</span> curriedFilterReducer <span class="token operator">=</span> <span class="token function">curry</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token function">filterReducer</span><span class="token punctuation">(</span>
+  <span class="token parameter">predicateFn<span class="token punctuation">,</span>
+  combineFn<span class="token punctuation">,</span></span>
+<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token function">reducer</span><span class="token punctuation">(</span><span class="token parameter">list<span class="token punctuation">,</span> val</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">predicateFn</span><span class="token punctuation">(</span>val<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token function">combineFn</span><span class="token punctuation">(</span>list<span class="token punctuation">,</span> val<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">return</span> list<span class="token punctuation">;</span>
   <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token keyword">const</span> curriedMapReducer <span class="token operator">=</span> <span class="token function">curry</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token function">mapReducer</span><span class="token punctuation">(</span><span class="token parameter">mapperFn<span class="token punctuation">,</span> combineFn</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">const</span> curriedMapReducer <span class="token operator">=</span> <span class="token function">curry</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token function">mapReducer</span><span class="token punctuation">(</span>
+  <span class="token parameter">mapperFn<span class="token punctuation">,</span>
+  combineFn<span class="token punctuation">,</span></span>
+<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token function">reducer</span><span class="token punctuation">(</span><span class="token parameter">list<span class="token punctuation">,</span> val</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token function">combineFn</span><span class="token punctuation">(</span>list<span class="token punctuation">,</span> <span class="token function">mapperFn</span><span class="token punctuation">(</span>val<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token keyword">const</span> strUpperCaseReducer <span class="token operator">=</span> <span class="token function">curriedMapReducer</span><span class="token punctuation">(</span>strUpperCase<span class="token punctuation">)</span><span class="token punctuation">(</span>listCombine<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> strUpperCaseReducer <span class="token operator">=</span> <span class="token function">curriedMapReducer</span><span class="token punctuation">(</span>strUpperCase<span class="token punctuation">)</span><span class="token punctuation">(</span>
+  listCombine<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token keyword">const</span> isLongEnoughReducer <span class="token operator">=</span> <span class="token function">curriedFilterReducer</span><span class="token punctuation">(</span>isLongEnough<span class="token punctuation">)</span><span class="token punctuation">(</span>listCombine<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> isLongEnoughReducer <span class="token operator">=</span> <span class="token function">curriedFilterReducer</span><span class="token punctuation">(</span>
+  isLongEnough<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">(</span>listCombine<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token keyword">const</span> isShortEnoughReducer <span class="token operator">=</span> <span class="token function">curriedFilterReducer</span><span class="token punctuation">(</span>isShortEnough<span class="token punctuation">)</span><span class="token punctuation">(</span>listCombine<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<span class="token keyword">const</span> isShortEnoughReducer <span class="token operator">=</span> <span class="token function">curriedFilterReducer</span><span class="token punctuation">(</span>
+  isShortEnough<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">(</span>listCombine<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <h2 id="composing-reducers" style="position:relative;"><a href="#composing-reducers" aria-label="composing reducers permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Composing Reducers</h2>
 <p>새롭게 정의한 <code class="language-text">reducer</code>들은 모두 <code class="language-text">listCombine</code>을 마지막 인수로 전달받는다는 공통점이 있다. 따라서 <code class="language-text">listCombine</code>을 전달하기 이전의 함수들은 미리 합성하는 방법을 생각할 수 있다.</p>
 <p>그렇다면 먼저 <code class="language-text">listCombine</code>을 전달하지 않은 상태의 함수를 생각해보자.</p>
@@ -285,7 +308,9 @@ g:                  <span class="token punctuation">((</span>a, b<span class="to
   <span class="token function">curriedFilterReducer</span><span class="token punctuation">(</span>isShortEnough<span class="token punctuation">)</span><span class="token punctuation">,</span>
 <span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token keyword">const</span> upperLongAndShortEnoughReducer <span class="token operator">=</span> <span class="token function">composition</span><span class="token punctuation">(</span>listCombine<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> upperLongAndShortEnoughReducer <span class="token operator">=</span> <span class="token function">composition</span><span class="token punctuation">(</span>
+  listCombine<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token comment">// x(y(z(listCombine)))</span>
 <span class="token keyword">function</span> <span class="token function">reducer</span><span class="token punctuation">(</span><span class="token parameter">list<span class="token punctuation">,</span> val</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -619,11 +644,21 @@ result <span class="token operator">=</span> xf<span class="token punctuation">.
 <span class="token keyword">const</span> init <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> input1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> output1 <span class="token operator">=</span> <span class="token function">transduce</span><span class="token punctuation">(</span>transducer<span class="token punctuation">,</span> stepper<span class="token punctuation">,</span> init<span class="token punctuation">,</span> input1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> output1 <span class="token operator">=</span> <span class="token function">transduce</span><span class="token punctuation">(</span>
+  transducer<span class="token punctuation">,</span>
+  stepper<span class="token punctuation">,</span>
+  init<span class="token punctuation">,</span>
+  input1<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment">// [1, 2, 3]</span>
 
 <span class="token keyword">const</span> input2 <span class="token operator">=</span> <span class="token string">'12345'</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> output2 <span class="token operator">=</span> <span class="token function">transduce</span><span class="token punctuation">(</span>transducer<span class="token punctuation">,</span> stepper<span class="token punctuation">,</span> init<span class="token punctuation">,</span> input2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> output2 <span class="token operator">=</span> <span class="token function">transduce</span><span class="token punctuation">(</span>
+  transducer<span class="token punctuation">,</span>
+  stepper<span class="token punctuation">,</span>
+  init<span class="token punctuation">,</span>
+  input2<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment">// ["1", "2", "3"]</span></code></pre></div>
 <h2 id="결론" style="position:relative;"><a href="#%EA%B2%B0%EB%A1%A0" aria-label="결론 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>결론</h2>
 <div class="gatsby-highlight has-highlighted-lines" data-language="javascript"><pre class="language-javascript"><code class="language-javascript"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">combineReducers</span><span class="token punctuation">(</span><span class="token parameter">reducers</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
